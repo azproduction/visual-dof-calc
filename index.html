@@ -1,78 +1,31 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<title>Visual Depth of Field Calculator</title>
+		<title>Visual DoF - Depth of Field Calculator</title>
 		<meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<style>
-            body {
-                background:  #fff;
-                padding: 0;
-                margin: 0;
-            }
-			span, option, body {
-				font-family: sans-serif;
-				margin: 0px;
-				overflow: hidden;
-                font-size: 13px;
-			}
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-            #toggle {
-                left: 10px;
-                bottom: 10px;
-                position: absolute;
-            }
+        <link rel="shortcut icon" href="img/l/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/h/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/m/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" href="img/l/apple-touch-icon-precomposed.png">
+        <link rel="apple-touch-startup-image" href="img/l/splash.png">
 
-            #camera_view {
-                right: 10px;
-                bottom: 10px;
-                position: absolute;
-            }
-
-            #form {
-                position: absolute;
-                left: 10px;
-                bottom: 10px;
-                background: #fff;
-                padding: 10px 20px 20px 20px;
-                border-radius: 10px;
-                border: 1px #333 solid;
-            }
-
-            select {
-                max-width: 200px;
-            }
-
-            #dof {
-                font-size: 20px;
-                padding: 10px;
-                position: absolute;
-                left: 0px;
-                width: 100%;
-                background: #777;
-                text-align: center;
-                color: #fff;
-                top: 0px;
-            }
-
-            #form div {
-                padding-top: 10px;
-            }
-
-            label span {
-                width: 60px;
-                vertical-align: middle;
-                display: inline-block;
-            }
-		</style>
-	
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-</head>
+        <link rel="stylesheet" href="main.css">
+    </head>
 	<body>
         <div id="dof"></div>
         <button id="toggle">Options</button>
         <button id="camera_view">Camera View</button>
-        <div id="form"></div>
+        <div id="form_wrapper" style="display:none;">
+            <div id="form"></div>
+            <div id="navi">
+                <button id="close">Ok</button>
+            </div>
+        </div>
 		<script src="lib/tree.js"></script>
         <script src="lib/TrackballControls.js"></script>
 		<script src="lib/animation_frame.js"></script>

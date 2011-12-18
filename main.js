@@ -93,11 +93,11 @@ function buildScene(frame_params, scene) {
     man.name = "man";
     scene.add(man);
 
-    info.innerHTML = 'DoF '
+    info.innerHTML = 'DoF&nbsp;'
         + (Math.round(frame_params.dt * 100) / 100) + 'm('
         + (Math.round(frame_params.dn * 100) / 100) + 'm &harr; '
-        + (Math.round(frame_params.df * 100) / 100) + 'm) Hf ' +
-        + (Math.round(frame_params.hf * 100) / 100) + 'm Frame '
+        + (Math.round(frame_params.df * 100) / 100) + 'm) Hf&nbsp;' +
+        + (Math.round(frame_params.hf * 100) / 100) + 'm Frame&nbsp;'
         + (Math.round(frame_params.fw * 100) / 100) + '×'
         + (Math.round(frame_params.fh * 100) / 100) +'m';
 }
@@ -113,7 +113,7 @@ function renderForm() {
     }
     html.push('</select></label>');
 
-    html.push('</div><div><label><span>Lens</span> ');
+    html.push('</div><div><label><span>Focal</span> ');
 
     html.push('<select id="focal_length">');
     for (var focal_length in dof.FOCAL_LENGTHS) {
@@ -126,7 +126,10 @@ function renderForm() {
     }
     html.push('</select></label> ');
 
-    html.push('<label>Aperture <select id="f_stop">');
+    html.push('</div>');
+    html.push('<div>');
+
+    html.push('<label><span>Aperture</span> <select id="f_stop">');
     for (var f_stop in dof.F_STOPS) {
         if (f_stop === '$')  {
             continue;
@@ -252,12 +255,16 @@ function init() {
 
     window.addEventListener('resize', resize, false);
 
-    $('#form').addEventListener('click', function (event) {
+    $('#form_wrapper').addEventListener('click', function (event) {
         event.stopPropagation();
     }, false);
 
     document.addEventListener('click', function () {
-        $('#form').style.display = 'none';
+        $('#form_wrapper').style.display = 'none';
+    }, false);
+
+    $('#close').addEventListener('click', function () {
+        $('#form_wrapper').style.display = 'none';
     }, false);
 
     $('#camera_view').addEventListener('click', function (event) {
@@ -271,7 +278,7 @@ function init() {
     }, false);
 
     $('#toggle').addEventListener('click', function (event) {
-        $('#form').style.display = '';
+        $('#form_wrapper').style.display = '';
         event.stopPropagation();
     }, false);
 }
