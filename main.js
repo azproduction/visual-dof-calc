@@ -6,23 +6,18 @@ var container, info, form,
 
     cube, photo_camera, photo_lenses, target, camera_line, cameraGroup, man,
 
-    mouseX = 45,
-    mouseY = 45,
+    height = window.innerHeight,
+	width  = window.innerWidth,
 
-    mouseXOnMouseDown = 45,
-    mouseYOnMouseDown = 45,
-
-    windowHalfX = window.innerWidth / 2,
-    windowHalfY = window.innerHeight / 2,
-
-    is_dragging = false,
     cameraPosition = {x: 0, y: 0, z: 0},
-    selected_object = null,
+
     camera_radius,
 
     dof_materials = [],
     photo_camera_materials = [],
-    man_material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'textures/man.png' ) } );;
+    man_material = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'textures/man.png' ) } ),
+
+    controls;
 
 for ( var i = 0; i < 6; i ++ ) {
     dof_materials.push( [ new THREE.MeshBasicMaterial( { color: 0x111122 * i, opacity: 0.5 } ) ] );
@@ -31,8 +26,7 @@ for ( var i = 0; i < 6; i ++ ) {
 
 var DEFAULT_DISTANCE = 3,
     DEFAULT_UNITS = 1,
-    DEFAULT_RENDERER = 'CanvasRenderer',
-    ARROW_SHIFT = 5;
+    DEFAULT_RENDERER = 'CanvasRenderer';
 
 function $(selector){
     return document.querySelector(selector);
@@ -110,16 +104,16 @@ function buildScene(frame_params, scene) {
 
 function renderForm() {
     // form
-    var html = ['<div><span>Camera</span> <select id="camera_id">'];
+    var html = ['<div><label><span>Camera</span> <select id="camera_id">'];
     for (var camera_id in dof.SENSOR_SIZES) {
         if (camera_id === '$')  {
             continue;
         }
         html.push('<option value="' + camera_id + '">' + camera_id + '</option>');
     }
-    html.push('</select>');
+    html.push('</select></label>');
 
-    html.push('</div><div><span>Lenses</span> ');
+    html.push('</div><div><label><span>Lens</span> ');
 
     html.push('<select id="focal_length">');
     for (var focal_length in dof.FOCAL_LENGTHS) {
@@ -130,9 +124,9 @@ function renderForm() {
             (dof.FOCAL_LENGTHS['$'] === dof.FOCAL_LENGTHS[focal_length] ? ' selected="selected"': '')
             + '>' + focal_length + '</option>');
     }
-    html.push('</select> ');
+    html.push('</select></label> ');
 
-    html.push('<select id="f_stop">');
+    html.push('<label>Aperture <select id="f_stop">');
     for (var f_stop in dof.F_STOPS) {
         if (f_stop === '$')  {
             continue;
@@ -141,41 +135,50 @@ function renderForm() {
             (dof.F_STOPS['$'] === dof.F_STOPS[f_stop] ? ' selected="selected"': '')
             + '>' + f_stop + '</option>');
     }
-    html.push('</select>');
+    html.push('</select></label>');
 
-    html.push(' @ <select id="distance_m">');
+    html.push('</div>');
+    html.push('<div>');
+
+    html.push(' <label><span>Distance</span> <select id="distance_m">');
     for (var i = 0; i < 100; i += 1) {
         html.push('<option value="' + i + '"' +
             (i === DEFAULT_DISTANCE ? ' selected="selected"': '')
             + '>' + i + 'm</option>');
     }
-    html.push('</select>');
+    html.push('</select></label>');
 
-    html.push(' <select id="distance_cm">');
+    html.push('<label> <select id="distance_cm">');
     for (var i = 0; i < 1; i+=0.01) {
         html.push('<option value="' + i + '">' + Math.round(i * 100) + 'cm</option>');
     }
-    html.push('</select></div>');
+    html.push('</select></label>');
 
-    html.push('<div><label>Portrait <input type="checkbox" id="is_portrait"/></label>');
+    html.push('</div>');
+    html.push('<div>');
 
-    html.push(' Cam.H <select id="camera_height">');
+    html.push('<label><span>Portrait</span> <input type="checkbox" id="is_portrait"/></label>');
+
+    html.push('</div>');
+    html.push('<div>');
+
+    html.push(' <label><span>Cam.H</span> <select id="camera_height">');
     for (var i = 2; i >= -2; i -= 0.1) {
         i = Math.round(i * 10) / 10;
         html.push('<option value="' + i + '"' +
             (i === 0 ? ' selected="selected"': '')
             + '>' + i + 'm</option>');
     }
-    html.push('</select>');
+    html.push('</select></label>');
 
-    html.push(' Cam.L <select id="camera_left">');
+    html.push(' <label>Cam.L <select id="camera_left">');
     for (var i = 2; i >= -2; i -= 0.1) {
         i = Math.round(i * 10) / 10;
         html.push('<option value="' + i + '"' +
             (i === 0 ? ' selected="selected"': '')
             + '>' + i + 'm</option>');
     }
-    html.push('</select>');
+    html.push('</select></label>');
 
     html.push('</div>');
 
@@ -212,8 +215,12 @@ function init() {
         $('#is_portrait').checked
     );
 
-    camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
     camera_radius = Math.max(getDistance() * 2, 5, frame_params.df);
+
+    camera = new THREE.PerspectiveCamera( 50, width / height, 1, 1000 );
+    camera.position.z = camera_radius;
+    camera.position.x = camera_radius;
+    camera.position.y = camera_radius;
     camera.lookAt({x: 0, y: 0, z: 0});
 
     scene = new THREE.Scene();
@@ -222,116 +229,66 @@ function init() {
     buildScene(frame_params, scene);
 
     renderer = new THREE[DEFAULT_RENDERER]();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( width, height );
 
     container.appendChild( renderer.domElement );
 
-    //toggle(true);
-    document.addEventListener('mousedown', function(event){
-        toggle(true);
-        is_dragging = true;
-        mouseXOnMouseDown = event.clientX;
-        mouseYOnMouseDown = event.clientY;
+    controls = new THREE.TrackballControls(camera, renderer.domElement);
+
+    controls.rotateSpeed = 1.0;
+    controls.zoomSpeed = 1.2;
+    controls.panSpeed = 0.2;
+
+    controls.noZoom = false;
+    controls.noPan = false;
+
+    controls.staticMoving = false;
+    controls.dynamicDampingFactor = 0.3;
+
+    controls.minDistance = camera_radius * 0.1;
+    controls.maxDistance = camera_radius * 100;
+
+    controls.keys = [ 65, 83, 68 ];
+
+    window.addEventListener('resize', resize, false);
+
+    $('#form').addEventListener('click', function (event) {
+        event.stopPropagation();
     }, false);
 
-    document.addEventListener('mouseup', function(){
-        toggle(false);
-        is_dragging = false;
+    document.addEventListener('click', function () {
+        $('#form').style.display = 'none';
     }, false);
 
-    function scrollHandler(event) {
-        if (event.target.nodeName.match(/option|input|select|button|textarea/i)) {
-            return;
-        }
-        var delta = event.wheelDelta ? event.wheelDelta / 120 : -event.detail / 3;
-        camera_radius -= delta;
-        if (camera_radius < 0) {
-            camera_radius = 0;
-        }
-    }
+    $('#camera_view').addEventListener('click', function (event) {
+        camera.position.x = photo_camera.position.x;
+        camera.position.y = photo_camera.position.y;
+        camera.position.z = photo_camera.position.z;
 
-    function uniformClickHandler (event){
-        var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
-        projector.unprojectVector( vector, camera );
+        camera.lookAt(cube.position);
 
-        var ray = new THREE.Ray( camera.position, vector.subSelf( camera.position ).normalize() );
+        event.stopPropagation();
+    }, false);
 
-        var intersects = ray.intersectObjects(scene.objects);
-        // selected_object
-        selected_object = null;
-        for (var i = 0; i < intersects.length; i++) {
-            if (intersects[i].object.name) {
-                selected_object = intersects[i].object.name;
-                break;
-            }
-        }
-    }
-
-    function arrowHandler(event) {
-        if (event.target.nodeName.match(/option|input|select|button|textarea/i)) {
-            return;
-        }
-        switch (event.keyCode) {
-            case 37:
-                event.preventDefault();
-                mouseX += ARROW_SHIFT;
-                break;
-            case 39:
-                event.preventDefault();
-                mouseX -= ARROW_SHIFT;
-                break;
-            case 38:
-                event.preventDefault();
-                mouseY += ARROW_SHIFT;
-                break;
-            case 40:
-                event.preventDefault();
-                mouseY -= ARROW_SHIFT;
-                break;
-        }
-    }
-
-    document.addEventListener('DOMMouseScroll', scrollHandler, false);
-    document.addEventListener('mousewheel', scrollHandler, false);
-    document.addEventListener('click', uniformClickHandler, false);
-    document.addEventListener('keydown', arrowHandler, false);
+    $('#toggle').addEventListener('click', function (event) {
+        $('#form').style.display = '';
+        event.stopPropagation();
+    }, false);
 }
 
-function toggle (enable) {
-    document[enable ? 'addEventListener': 'removeEventListener']( 'mousemove', onDocumentMouseMove, false );
-    document[enable ? 'addEventListener': 'removeEventListener']( 'touchstart', onDocumentTouchStart, false );
-    document[enable ? 'addEventListener': 'removeEventListener']( 'touchmove', onDocumentTouchMove, false );
-}
+function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
 
-function onDocumentMouseMove( event ) {
-    mouseX += (event.clientX - mouseXOnMouseDown) / 50;
-    mouseY += (event.clientY - mouseYOnMouseDown) / 50;
-}
+    renderer.setSize( width, height );
 
-function onDocumentTouchStart( event ) {
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
 
-    if ( event.touches.length == 1 ) {
+    controls.screen.width = width;
+    controls.screen.height = height;
 
-        event.preventDefault();
-
-        mouseX = event.touches[ 0 ].pageX - windowHalfX;
-        mouseY = event.touches[ 0 ].pageY - windowHalfY;
-
-    }
-
-}
-
-function onDocumentTouchMove( event ) {
-
-    if ( event.touches.length == 1 ) {
-
-        event.preventDefault();
-
-        mouseX = event.touches[ 0 ].pageX - windowHalfX;
-        mouseY = event.touches[ 0 ].pageY - windowHalfY;
-
-    }
-
+    camera.radius = ( width + height ) / 4;
 }
 
 function animate() {
@@ -341,13 +298,10 @@ function animate() {
 }
 
 function render() {
-    camera.position.x = Math.sin(mouseX * (Math.PI / 180)) * camera_radius;
-    camera.position.y = Math.cos(mouseY * (Math.PI / 180)) * camera_radius;
-    camera.position.z = Math.cos(mouseX * (Math.PI / 180)) * camera_radius;
-    camera.lookAt(scene.position);
+    controls.update();
+    renderer.clear();
     renderer.render(scene, camera);
 }
-
 
 init();
 animate();

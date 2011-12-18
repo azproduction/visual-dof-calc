@@ -6,7 +6,9 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
             body {
-                background:  #ddd;
+                background:  #fff;
+                padding: 0;
+                margin: 0;
             }
 			span, option, body {
 				font-family: sans-serif;
@@ -14,9 +16,31 @@
 				overflow: hidden;
                 font-size: 13px;
 			}
+
+            #toggle {
+                left: 10px;
+                bottom: 10px;
+                position: absolute;
+            }
+
+            #camera_view {
+                right: 10px;
+                bottom: 10px;
+                position: absolute;
+            }
+
             #form {
                 position: absolute;
+                left: 10px;
                 bottom: 10px;
+                background: #fff;
+                padding: 10px 20px 20px 20px;
+                border-radius: 10px;
+                border: 1px #333 solid;
+            }
+
+            select {
+                max-width: 200px;
             }
 
             #dof {
@@ -25,8 +49,7 @@
                 position: absolute;
                 left: 0px;
                 width: 100%;
-                background: #ccc;
-                background: rgba(50,50,50,0.5);
+                background: #777;
                 text-align: center;
                 color: #fff;
                 top: 0px;
@@ -34,8 +57,12 @@
 
             #form div {
                 padding-top: 10px;
-                padding-left: 10px;
-                float: left;
+            }
+
+            label span {
+                width: 60px;
+                vertical-align: middle;
+                display: inline-block;
             }
 		</style>
 	
@@ -43,8 +70,11 @@
 </head>
 	<body>
         <div id="dof"></div>
+        <button id="toggle">Options</button>
+        <button id="camera_view">Camera View</button>
         <div id="form"></div>
 		<script src="lib/tree.js"></script>
+        <script src="lib/TrackballControls.js"></script>
 		<script src="lib/animation_frame.js"></script>
 		<script src="lib/stats.js"></script>
         <script src="lib/dof.js"></script>
