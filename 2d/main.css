@@ -164,3 +164,54 @@ body, html {
 #distance-m {
     text-align: right;
 }
+
+@media screen and (max-width: 480px) {
+    body {
+        font-size: 0.7em;
+    }
+
+    .spacer {
+        margin: 0;
+        height: 150px;
+    }
+
+    .half-spacer {
+        margin: 0;
+        height: 50%;
+    }
+
+    .scene {
+        width: 100%;
+        margin:  0;
+    }
+
+    .editable {
+        border: none;
+    }
+
+    #camera-id {
+        width: 100px;
+    }
+
+    .scene-options_item-select {
+        font-size: 1em;
+        border:  0;
+        margin-right: -20px;
+    }
+
+    .camera {
+        background-size: 70%;
+    }
+
+    .frame,
+    .dof,
+    .bokeh,
+    .target-left,
+    .target-right{
+        font-size: 1.5em;
+    }
+    
+    .note {
+        display: none;
+    }
+}
