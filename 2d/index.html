@@ -17,20 +17,126 @@
         <link rel="stylesheet" href="main.css">
     </head>
 	<body>
-        <div id="dof"></div>
-        <button id="toggle">Options</button>
-        <button id="camera_view">Camera View</button>
-        <div id="form_wrapper" style="display:none;">
-            <div id="form"></div>
-            <div id="navi">
-                <button id="close">Ok</button>
+        <table class="container"><tr><td class="container">
+            <div class="scene">
+                <div class="camera">
+                    <div class="scene-options">
+                        <div class="scene-options_item camera-focal editable">
+                            <label for="focal"><div class="scene-options_item-no-arrow">
+                                    <select name="focal" id="focal" class="scene-options_item-select">
+                                        <option value="50">1200</option>
+                                    </select>
+                            </div>mm</label>
+                            <!--<div class="scene-options_item scene-options_item-lock camera-focal-lock">*</div>-->
+                        </div>
+
+                        <div class="scene-options_item camera-aperture editable">
+                            <label for="aperture">f/<div class="scene-options_item-no-arrow">
+                                    <select name="aperture" id="aperture" class="scene-options_item-select">
+                                        <option value="4.0">32.0</option>
+                                    </select>
+                            </div></label>
+                            <!--<div class="scene-options_item scene-options_item-lock camera-aperture-lock">*</div>-->
+                        </div>
+
+                    </div>
+                    <div class="spacer">&nbsp;</div>
+
+                    <div class="scene-options">
+                        <div class="scene-options_item camera-id editable">
+                            <label for="camera-id"><div class="scene-options_item-no-arrow">
+                                    <select name="camera-id" id="camera-id" class="scene-options_item-select">
+                                        <option value="50">Canon 5D Mk II</option>
+                                    </select>
+                            </div></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="target">
+                    <div class="frame">
+                        Frame <span class="value" id="frame-fw">500</span><span class="unit">m</span> ×
+                        <span class="value" id="frame-fh">99</span><span class="unit">m</span>
+                    </div>
+                    <div class="half-spacer">&nbsp;</div>
+                    <div class="target-left">
+                        <span class="value" id="frame-dn">500</span><span class="unit">m</span>
+                    </div>
+                    <div class="target-right">
+                        <span class="value" id="frame-df">500</span><span class="unit">m</span>
+                    </div>
+                </div>
+                <div class="background">
+                    <div class="scene-options">
+                        <div class="scene-options_item background-distance editable">
+                            <label for="background-m"><div class="scene-options_item-no-arrow">
+                                    <select name="background-m" id="background-m" class="scene-options_item-select">
+                                        <option value="50">Inf.</option>
+                                    </select>
+                            </div>m</label>
+                        </div>
+                        <div class="scene-options_item dof-distance editable">
+                            <label for="background-cm"><div class="scene-options_item-no-arrow">
+                                    <select name="background-cm" id="background-cm" class="scene-options_item-select">
+                                        <option value="50">90</option>
+                                    </select>
+                            </div>cm</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear" />
+
+                <div class="distance">
+                    <div class="scene-options">
+                        <div class="scene-options_item camera-distance editable">
+                            <label for="distance-m"><div class="scene-options_item-no-arrow">
+                                    <select name="distance-m" id="distance-m" class="scene-options_item-select">
+                                        <option value="50">500</option>
+                                    </select>
+                            </div>m</label>
+                        </div>
+                        <div class="scene-options_item camera-distance editable">
+                            <label for="distance-cm"><div class="scene-options_item-no-arrow">
+                                    <select name="distance-cm" id="distance-cm" class="scene-options_item-select">
+                                        <option value="50">90</option>
+                                    </select>
+                            </div>cm</label>
+                            <!--<div class="scene-options_item scene-options_item-lock camera-distance-lock">*</div>-->
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="dof">
+                    <!--Saved for future updates-->
+                    <!--<div class="scene-options">
+                        <div class="scene-options_item dof-distance editable">
+                            <label for="dof-m"><div class="scene-options_item-no-arrow">
+                                    <select name="dof-m" id="dof-m" class="scene-options_item-select">
+                                        <option value="50">500</option>
+                                    </select>
+                            </div>m</label>
+                        </div>
+                        <div class="scene-options_item dof-distance editable">
+                            <label for="dof-cm"><div class="scene-options_item-no-arrow">
+                                    <select name="dof-cm" id="dof-cm" class="scene-options_item-select">
+                                        <option value="50">90</option>
+                                    </select>
+                            </div>cm</label>
+                            <div class="scene-options_item scene-options_item-lock dof-distance-lock">*</div>
+                        </div>
+                    </div>-->
+                    DoF <span class="value" id="frame-dt">500</span><span class="unit">m</span>, Hf
+                    <span class="value" id="frame-hf">500</span><span class="unit">m</span>
+                </div>
+                
+                <div class="bokeh" title="Bokeh number">
+                    Bokeh <span class="value" id="frame-bp">50</span><span class="unit">pts</span>
+                </div>
             </div>
-        </div>
-        <script src="lib/tree.js"></script>
-        <script src="lib/TrackballControls.js"></script>
-        <script src="lib/animation_frame.js"></script>
-        <script src="lib/stats.js"></script>
-        <script src="lib/dof.js"></script>
+        </td></tr></table>
+        <script src="../common/dof.js"></script>
+        <script src="../common/zepto.min.js"></script>
         <script src="main.js"></script>
 	</body>
 </html>

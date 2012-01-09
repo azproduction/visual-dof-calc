@@ -4,62 +4,163 @@ body, html {
     margin: 0;
     height: 100%;
     width: 100%;
-}
-span, option, body {
-    font-family: sans-serif;
-    margin: 0px;
-    overflow: hidden;
-    font-size: 13px;
+    font-family: Helvetica;
+    font-size: 1.2em;
 }
 
-#toggle {
-    left: 10px;
-    bottom: 10px;
-    position: absolute;
-}
-
-#camera_view {
-    right: 10px;
-    bottom: 10px;
-    position: absolute;
-}
-
-#form_wrapper {
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-    background: #fff;
-    padding: 10px 20px 20px 20px;
-    border-radius: 10px;
-    border: 1px #333 solid;
-}
-
-select {
-    max-width: 190px;
-}
-
-#dof {
-    font-size: 1em;
-    padding: 5px 0px;
-    position: absolute;
-    left: 0px;
-    width: 100%;
-    background: #777;
+.container {
     text-align: center;
-    color: #fff;
-    top: 0px;
-}
-
-#form div {
-    padding-top: 10px;
-}
-
-#navi {
-    padding-top: 10px;
-}
-
-label span {
-    width: 60px;
+    height: 100%;
+    width: 100%;
     vertical-align: middle;
+}
+
+.scene {
+    width: 90%;
+    margin-left: 5%;
+    text-align: left;
+}
+
+.camera {
+    float: left;
     display: inline-block;
+    width: 20%;
+    text-align: center;
+    background: url(images/camera.png) no-repeat center center;
+}
+
+.scene-options_item {
+    display: inline-block;
+    color: #777;
+    white-space: nowrap;
+}
+
+.scene .unit {
+    color: #777;
+}
+
+.scene .value {
+    color: #000;
+}
+
+.scene-options_item-select {
+    font-size: 1em;
+    border:  0;
+    margin-right: -17px;
+}
+
+.scene-options_item-select option {
+    padding: 0;
+}
+
+.scene-options_item-no-arrow {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: -0.25em;
+}
+
+.scene-options_item-lock {
+    font-size: 0.5em;
+    vertical-align: 1em;
+    margin-left: -0.25em;
+    cursor: pointer;
+}
+
+.target {
+    display: inline-block;
+    width: 60%;
+    float: left;
+    background: url(images/target.png) no-repeat center bottom;
+    text-align: center;
+    height: 200px;
+}
+
+.target-left {
+    width: 50%;
+    float: left;
+}
+
+.target-right {
+    width: 50%;
+    float: left;
+}
+
+.background {
+    display: inline-block;
+    width: 20%;
+    float: left;
+    text-align: center;
+    background: url(images/background.png) no-repeat center bottom;
+    height: 200px;
+}
+
+.distance {
+    text-align: center;
+    width: 20%;
+    padding-top: 0.25em;
+    float: left;
+}
+
+.bokeh {
+    text-align: center;
+    width: 20%;
+    padding-top: 0.25em;
+    float: left;
+}
+
+.dof {
+    text-align: center;
+    width: 60%;
+    padding-top: 0.5em;
+    float: left;
+    /*border-top: dashed 2px #999;*/
+}
+
+/*
+.dof:before {
+    content: "◄";
+    display: inline-block;
+    left: 0px;
+    float: left;
+    margin: -1.15em 0 0 -10px;
+    color: #555;
+}
+
+.dof:after {
+    content: "►";
+    display: inline-block;
+    left: 0px;
+    float: right;
+    margin: -1.15em -10px 0 0;
+    color: #555;
+}
+*/
+
+.clear {
+    clear: both;
+    padding-top: 1em;
+}
+
+.spacer {
+    margin: 3em;
+}
+
+.half-spacer {
+    margin: 1.5em;
+}
+
+.editable {
+    border-bottom: 1px dashed #ddd;
+}
+
+#camera-id {
+    width: 200px;
+}
+
+#focal,
+#background-m,
+#background-cm,
+#distance-cm,
+#distance-m {
+    text-align: right;
 }
