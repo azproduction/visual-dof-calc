@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+	<head>
+        <title>Visual DoF - Depth of Field Calculator</title>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="shortcut icon" href="../img/l/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../img/h/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../img/m/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" href="../img/l/apple-touch-icon-precomposed.png">
+        <link rel="apple-touch-startup-image" href="../img/l/splash.png">
+
+        <link rel="stylesheet" href="main.css">
+    </head>
+	<body>
+        <div id="dof"></div>
+        <button id="toggle">Options</button>
+        <button id="camera_view">Camera View</button>
+        <div id="form_wrapper" style="display:none;">
+            <div id="form"></div>
+            <div id="navi">
+                <button id="close">Ok</button>
+            </div>
+        </div>
+        <script src="lib/tree.js"></script>
+        <script src="lib/TrackballControls.js"></script>
+        <script src="lib/animation_frame.js"></script>
+        <script src="lib/stats.js"></script>
+        <script src="lib/dof.js"></script>
+        <script src="main.js"></script>
+	</body>
+</html>
