@@ -86,6 +86,8 @@ function setupChart() {
         var pos = latestPosition;
 
         var axes = plot.getAxes();
+        axes.xaxis = axes.xaxis || {};
+        axes.yaxis = axes.yaxis || {};
         if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
             pos.y < axes.yaxis.min || pos.y > axes.yaxis.max)
             return;
