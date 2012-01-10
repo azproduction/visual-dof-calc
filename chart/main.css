@@ -1,0 +1,66 @@
+body, html {
+    background:  #fff;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Helvetica;
+    overflow-x: hidden;
+}
+
+.scene-options {
+    margin: 10px;
+    margin-left: 1%;
+}
+
+.scene-results {
+    font-size: 1.5em;
+    padding-left: 1%;
+}
+
+.scene-options_item,
+.scene-results_item {
+    display: inline-block;
+}
+
+.scene-options_item label,
+.scene-options_item-no-arrow{
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.value {
+    color: #1e90ff;
+}
+
+.chart {
+    height: 500px;
+    width: 100%;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    vertical-align: top;
+}
+
+h2 {
+    margin-left: 1%;
+}
+
+.chart {
+    width: 98%;
+    height: 300px;
+    left: 1%;
+}
+
+.legend-title {
+    font-size: 0.8em;
+    color: #555;
+    margin-top: -1.2em;
+    margin-left: 1%;
+}
+
+.unit {
+    color: #777;
+}

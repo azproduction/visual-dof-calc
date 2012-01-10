@@ -1596,7 +1596,7 @@ function calculateDof(distance, camera_id, fstop_or_aperture, focal_id_or_focal,
     dofNear = ((hyperFocal - focal) * distance) / (hyperFocal + distance - (2 * focal));
 
     // Prevent 'divide by zero' when calculating far distance.
-    dofFar = (hyperFocal - distance) < 1e-5 ? 1e7 : ((hyperFocal - focal) * distance) / (hyperFocal - distance);
+    dofFar = (hyperFocal - distance) < 1e-6 ? Infinity : ((hyperFocal - focal) * distance) / (hyperFocal - distance);
 
     // Calculate percentage of DOF in front and behind the subject.
     dofNearPercent = (distance - dofNear) / (dofFar - dofNear) * 100;
@@ -1604,8 +1604,8 @@ function calculateDof(distance, camera_id, fstop_or_aperture, focal_id_or_focal,
 
     return {
         hf: hyperFocal / divider,
-        dn: dofNear / divider,
-        df: dofFar / divider,
+        dn: (dofNear / divider)  || Infinity,
+        df: (dofFar / divider) || Infinity,
         dt: (dofFar - dofNear)/ divider,
         pdn: Math.round(dofNearPercent),
         pdf: Math.round(dofFarPercent),

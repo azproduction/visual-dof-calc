@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+	<head>
+        <title>Visual DoF - Depth of Field Calculator</title>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <link rel="shortcut icon" href="../img/l/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../img/h/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../img/m/apple-touch-icon.png">
+        <link rel="apple-touch-icon-precomposed" href="../img/l/apple-touch-icon-precomposed.png">
+        <link rel="apple-touch-startup-image" href="../img/l/splash.png">
+
+        <link rel="stylesheet" href="main.css">
+
+        <script src="../common/dof.js"></script>
+        <script src="http://yandex.st/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://people.iola.dk/olau/flot/jquery.flot.js"></script>
+        <script src="http://people.iola.dk/olau/flot/jquery.flot.crosshair.js"></script>
+        <script src="http://people.iola.dk/olau/flot/jquery.flot.fillbetween.js"></script>
+        <script src="http://people.iola.dk/olau/flot/jquery.flot.resize.js"></script>
+        <script src="../common/jquery.flot.navigate.js"></script>
+        <script src="main.js"></script>
+    </head>
+	<body>
+
+        <div>
+            <div class="scene-options">
+                <div class="scene-options_item camera-id editable">
+                    <label for="camera-id"><div class="scene-options_item-no-arrow">
+                            <select name="camera-id" id="camera-id" class="scene-options_item-select">
+                                <option value="50">Canon 5D Mk II</option>
+                            </select>
+                    </div></label>
+                </div>
+
+                <div class="scene-options_item camera-focal editable">
+                    <label for="focal"><div class="scene-options_item-no-arrow">
+                            <select name="focal" id="focal" class="scene-options_item-select">
+                                <option value="50">1200</option>
+                            </select>
+                    </div><span class="note"> mm</span></label>
+                    <!--<div class="scene-options_item scene-options_item-lock camera-focal-lock">*</div>-->
+                </div>
+
+                <div class="scene-options_item camera-aperture editable">
+                    <label for="aperture"><span class="note">f/ </span><div class="scene-options_item-no-arrow">
+                            <select name="aperture" id="aperture" class="scene-options_item-select">
+                                <option value="4.0">32.0</option>
+                            </select>
+                    </div></label>
+                </div>
+
+                <div class="scene-options_item camera-distance editable">
+                    <label for="distance-m">Target <div class="scene-options_item-no-arrow">
+                            <select name="distance-m" id="distance-m" class="scene-options_item-select">
+                                <option value="50">500</option>
+                            </select>
+                    </div><span class="note">m</span></label>
+                </div>
+                <div class="scene-options_item camera-distance editable">
+                    <label for="distance-cm"> <div class="scene-options_item-no-arrow">
+                            <select name="distance-cm" id="distance-cm" class="scene-options_item-select">
+                                <option value="50">90</option>
+                            </select>
+                    </div><span class="note">cm</span></label>
+                    <!--<div class="scene-options_item scene-options_item-lock camera-distance-lock">*</div>-->
+                </div>
+
+                <div class="scene-options_item background-distance editable">
+                    <label for="background-m">Background <div class="scene-options_item-no-arrow">
+                            <select name="background-m" id="background-m" class="scene-options_item-select">
+                                <option value="50">Inf.</option>
+                            </select>
+                    </div><span class="note">m</span></label>
+                </div>
+
+                <div class="scene-options_item background-distance editable">
+                    <label for="background-cm"><div class="scene-options_item-no-arrow">
+                            <select name="background-cm" id="background-cm" class="scene-options_item-select">
+                                <option value="50">90</option>
+                            </select>
+                    </div><span class="note">cm</span></label>
+                </div>
+            </div>
+
+            <div class="scene-results">
+                <div class="scene-results_item frame">
+                    <span class="note">Frame</span> <span class="value" id="frame-fw">500</span><span class="unit">m</span> ×
+                    <span class="value" id="frame-fh">99</span><span class="unit">m</span>
+                </div>
+
+                <div class="scene-results_item dof">
+                    <span class="note">DoF</span> <span class="value" id="frame-dt">500</span><span class="unit">m</span>
+                </div>
+
+                <div class="scene-results_item target-left">
+                    (<span class="note">Near </span> <span class="value" id="frame-dn">500</span><span class="unit">m</span>
+                </div>
+
+                <div class="scene-results_item target-right">
+                    <span class="note">Far </span> <span class="value" id="frame-df">500</span><span class="unit">m</span>)
+                </div>
+
+                <div class="scene-results_item dof">
+                    Hf <span class="value" id="frame-hf">500</span><span class="unit">m</span>
+                </div>
+
+                <div class="scene-results_item bokeh" title="Bokeh number">
+                    <span class="note">Bokeh</span> <span class="value" id="frame-bp">50</span><span class="unit">pts</span>
+                </div>
+            </div>
+        </div>
+        <table class="container"><tr><td class="container">
+            <h2>DoF/Aperture</h2>
+            <div id="chart" class="chart"></div>
+            <div class="legend-title">f/</div>
+
+            <h2>DoF/Distance</h2>
+            <div id="chart-2" class="chart"></div>
+            <div class="legend-title">D(m)</div>
+
+            <h2>DoF/Focal</h2>
+            <div id="chart-3" class="chart"></div>
+            <div class="legend-title">F(mm)</div>
+        </td></tr></table>
+	</body>
+</html>
