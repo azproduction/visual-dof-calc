@@ -77,7 +77,7 @@ $(function () {
 
     // Focal
     if (typeof parameters.focal === "undefined") {
-        parameters.focal = 50;
+        parameters.focal = 135;
     }
     html = [];
     for (var focal_length in dof.FOCAL_LENGTHS) {
@@ -107,7 +107,7 @@ $(function () {
 
     // Distance m
     if (typeof parameters.distance_m === "undefined") {
-        parameters.distance_m = 5;
+        parameters.distance_m = 10;
     }
     html = [];
     step = 1;
@@ -126,6 +126,9 @@ $(function () {
     $('#distance-m').html(html.join(''));
 
     // Distance cm
+    if (typeof parameters.distance_cm === "undefined") {
+        parameters.distance_cm = 5;
+    }
     html = [];
     for (var i = 0; i < 1; i += 0.05) {
         html.push('<option value="' + i + '"' +
@@ -158,6 +161,9 @@ $(function () {
     $('#background-m').html(html.join(''));
 
     // background cm
+    if (typeof parameters.background_cm === "undefined") {
+        parameters.background_cm = 0;
+    }
     html = [];
     for (var i = 0; i < 1; i += 0.05) {
         html.push('<option value="' + i + '"' +
